@@ -12,21 +12,26 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'userType' => 'required|integer|digits:1|max:3|min:1'
-        ]);
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required|string|min:8',
+                'userType' => 'required|integer|digits:1|max:3|min:1'
+            ]);
+            
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'userType' => $request->userType,
+            ]);
+            return response()->json(['message' => 'User registered successfully'], 201);
+        } catch (\Throwable $th) {
+            
+            return response()->json(['message' => $th], 500);
+        }
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'userType' => $request->userType,
-        ]);
-
-        return response()->json(['message' => 'User registered successfully'], 201);
     }
 
     public function login(Request $request)
@@ -44,10 +49,9 @@ class AuthController extends Controller
             ]);
         }
 
-        $user = $request->user();
-        $token = $user->createToken('Personal Access Token')->accessToken;
-
+        $token = $request->user()->createToken('Personal Access Token');
         return response()->json(['token' => $token], 200);
+
     }
 
     public function logout(Request $request)

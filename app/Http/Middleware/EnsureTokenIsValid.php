@@ -10,7 +10,7 @@ class EnsureTokenIsValid
     public function handle($request, Closure $next)
     {
         if (!Auth::guard('api')->check()) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+            return response()->json(['message' => 'No autorizado'], 401);
         }
 
         return $next($request);
