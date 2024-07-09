@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\MenuController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UploadController;
@@ -12,15 +12,12 @@ Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
 Route::middleware(['auth.api', 'log.authenticated.user'])->group(function () {
-    Route::get('/user', function (Request $request) {
-        return response()->json(['response' => "ok", "user" => $request], 200);
-        return $request->user();
-    });
+    Route::get('logout', [AuthController::class, 'logout']);
+    Route::get('/user', [MenuController::class,'getUserInfo']);
+    Route::post('bulkLoad', [UploadController::class, 'store']);
 
-    // Otras rutas protegidas...
 });
 Route::middleware('auth:api')->group(function () {
-    Route::post('upload', [UploadController::class, 'store']);
     Route::get('persons', [PersonController::class, 'index']);
     Route::get('persons/{id}', [PersonController::class, 'show']);
 });

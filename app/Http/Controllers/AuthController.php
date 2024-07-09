@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RolUser;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -26,6 +27,11 @@ class AuthController extends Controller
                 'password' => Hash::make($request->password),
                 'userType' => $request->userType,
             ]);
+            RolUser::create([
+                'user_id'=> $user->id,
+                'role_id'=> $request->userType,
+            ]);
+            
             return response()->json(['message' => 'User registered successfully'], 201);
         } catch (\Throwable $th) {
             
@@ -50,7 +56,7 @@ class AuthController extends Controller
         }
 
         $token = $request->user()->createToken('Personal Access Token');
-        return response()->json(['token' => $token], 200);
+        return response()->json($token, 200);
 
     }
 
