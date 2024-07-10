@@ -2,14 +2,14 @@
 
 namespace App\Repositories;
 
-use App\Models\Person;
+use App\Models\Telefono;
 
 class PhoneRepository {
     public function getAll($offset, $limit) {
-        return Person::offset($offset)->limit($limit)->get();
+        return Telefono::offset($offset)->limit($limit)->get();
     }
 
     public function find($id) {
-        return Person::find($id);
+        return Telefono::find($id);
     }
 }

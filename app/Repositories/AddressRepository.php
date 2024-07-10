@@ -2,14 +2,14 @@
 
 namespace App\Repositories;
 
-use App\Models\Person;
+use App\Models\Direccion;
 
 class AddressRepository {
     public function getAll($offset, $limit) {
-        return Person::offset($offset)->limit($limit)->get();
+        return Direccion::offset($offset)->limit($limit)->get();
     }
 
     public function find($id) {
-        return Person::find($id);
+        return Direccion::find($id);
     }
 }

@@ -26,8 +26,5 @@ class PersonController extends Controller
 
     public function show($id)
     {
-        $personDetails = $this->personService.getPersonDetails($id);
-
-        return response()->json($personDetails);
     }
 }

@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('direcciones', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('persona_id')->constrained('personas')->onDelete('cascade');
+            $table->string('calle');
+            $table->string('numero_exterior');
+            $table->string('numero_interior')->nullable();
+            $table->string('colonia');
+            $table->string('cp');
             $table->timestamps();
         });
     }

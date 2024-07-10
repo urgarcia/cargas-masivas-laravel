@@ -26,9 +26,5 @@ class PersonService {
     }
 
     public function getPersonDetails($id) {
-        $person = $this->personRepository->find($id);
-        $phones = $this->phoneRepository->findByPersonId($id);
-        $addresses = $this->addressRepository->findByPersonId($id);
-        return compact('person', 'phones', 'addresses');
     }
 }
